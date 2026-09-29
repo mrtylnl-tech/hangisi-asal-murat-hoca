@@ -7,6 +7,8 @@ const PORT = process.env.PORT || 10000;
 
 const games = new Map();
 const results = new Map();
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
+const adminTokens = new Set();
 
 const grades = ["4", "5", "6", "7", "8", "Diger"];
 
@@ -92,7 +94,59 @@ function formatTime(ms) {
 }
 
 const server = http.createServer(async (req, res) => {
+   // YÖNETİCİ GİRİŞİ
+  if (req.method === "POST" && url.pathname === "/api/admin/login") {
+    try {
+      const body = await readBody(req);
+      const password = String(body.password || "");
+
+      if (!ADMIN_PASSWORD || password !== ADMIN_PASSWORD) {
+        return send(res, 401, {
+          error: "Yönetici şifresi hatalı."
+        });
+      }
+
+      const token = crypto.randomUUID();
+      adminTokens.add(token);
+
+      return send(res, 200, {
+        success: true,
+        token
+      });
+
+    } catch (error) {
+      return send(res, 400, {
+        error: "Giriş yapılamadı."
+      });
+    }
+  }
+
+
   const url = new URL(
+      // YÖNETİCİ SIRALAMASI
+  if (req.method === "GET" && url.pathname === "/api/admin/results") {
+    const token = req.headers["x-admin-token"];
+
+    if (!token || !adminTokens.has(token)) {
+      return send(res, 401, {
+        error: "Yetkisiz erişim."
+      });
+    }
+
+    const grade = String(
+      url.searchParams.get("grade") || ""
+    );
+
+    if (!grades.includes(grade)) {
+      return send(res, 400, {
+        error: "Geçersiz sınıf."
+      });
+    }
+
+    return send(res, 200, {
+      results: getLeaderboard(grade)
+    });
+        }
     req.url,
     `http://${req.headers.host || "localhost"}`
   );
@@ -315,7 +369,29 @@ const avatar = String(body.avatar || "😀");
       results: getLeaderboard(grade)
     });
   }
+  // YÖNETİCİ SAYFASI
+  if (
+    req.method === "GET" &&
+    url.pathname === "/yonetici"
+  ) {
+    const file = path.join(
+      __dirname,
+      "public",
+      "yonetici.html"
+    );
 
+    if (!fs.existsSync(file)) {
+      return send(res, 404, {
+        error: "public/yonetici.html bulunamadı."
+      });
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    });
+
+    return fs.createReadStream(file).pipe(res);
+  }
   // ANA SAYFA
   if (
     req.method === "GET" &&

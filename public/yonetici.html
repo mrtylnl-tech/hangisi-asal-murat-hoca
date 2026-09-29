@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Yönetici Paneli | HANGİSİ ASAL?</title>
+
+  <title>Yönetici Paneli | Murat Hoca</title>
 
   <style>
     * {
@@ -25,71 +26,115 @@
 
     .card {
       background: white;
-      border-radius: 22px;
+      border-radius: 20px;
       padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     }
 
     h1 {
-      text-align: center;
       margin-top: 0;
+      text-align: center;
+      color: #312e81;
     }
 
-    .login {
-      max-width: 420px;
-      margin: 70px auto;
+    h2 {
+      color: #4338ca;
     }
 
-    input, select, button {
+    input,
+    select,
+    button {
       width: 100%;
-      padding: 14px;
-      margin-top: 10px;
+      padding: 13px 15px;
       border-radius: 12px;
       border: 1px solid #cbd5e1;
       font-size: 16px;
+      margin-top: 8px;
     }
 
     button {
-      border: 0;
-      background: #2563eb;
+      border: none;
+      background: #4f46e5;
       color: white;
       font-weight: bold;
       cursor: pointer;
     }
 
     button:hover {
-      opacity: .9;
+      opacity: 0.9;
     }
 
-    .hidden {
-      display: none;
-    }
-
-    .topbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .topbar > * {
-      flex: 1;
-      min-width: 160px;
+    .secondary {
+      background: #64748b;
     }
 
     .danger {
       background: #dc2626;
     }
 
-    .info {
-      background: #f1f5f9;
-      border-radius: 15px;
-      padding: 15px;
+    .hidden {
+      display: none !important;
+    }
+
+    .message {
+      margin-top: 15px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
       margin-bottom: 20px;
+    }
+
+    .topbar h1 {
+      margin: 0;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .stat {
+      flex: 1;
+      min-width: 180px;
+      background: #eef2ff;
+      border-radius: 15px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 28px;
+      color: #4338ca;
+      margin-top: 5px;
     }
 
     .table-wrap {
       overflow-x: auto;
+      border-radius: 12px;
     }
 
     table {
@@ -98,94 +143,186 @@
       min-width: 700px;
     }
 
-    th, td {
-      padding: 12px;
+    th,
+    td {
+      padding: 12px 10px;
       border-bottom: 1px solid #e2e8f0;
       text-align: center;
     }
 
     th {
+      background: #eef2ff;
+      color: #3730a3;
+    }
+
+    tr:hover td {
       background: #f8fafc;
     }
 
     .avatar {
-      font-size: 25px;
+      font-size: 26px;
     }
 
-    .error {
-      color: #dc2626;
-      text-align: center;
-      margin-top: 12px;
-      font-weight: bold;
+    .login-box {
+      max-width: 450px;
+      margin: 70px auto;
     }
 
-    .success {
-      color: #15803d;
+    .subtitle {
       text-align: center;
-      margin-top: 12px;
-      font-weight: bold;
+      color: #64748b;
+      margin-bottom: 25px;
+    }
+
+    .logout-area {
+      display: flex;
+      gap: 10px;
+    }
+
+    .logout-area button {
+      width: auto;
+      padding: 10px 18px;
+    }
+
+    @media (max-width: 650px) {
+      .controls {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        padding: 18px;
+      }
+
+      .topbar {
+        align-items: stretch;
+      }
+
+      .logout-area {
+        width: 100%;
+      }
+
+      .logout-area button {
+        flex: 1;
+      }
     }
   </style>
 </head>
 
 <body>
 
+  <!-- GİRİŞ SAYFASI -->
   <div id="loginPage" class="container">
-    <div class="card login">
-      <h1>🔐 Yönetici Girişi</h1>
 
-      <p style="text-align:center;">
-        HANGİSİ ASAL? 👋
-      </p>
+    <div class="card login-box">
+
+      <h1>🔐 Yönetici Paneli</h1>
+
+      <div class="subtitle">
+        Murat Hoca İle Matematik
+      </div>
+
+      <label for="password">
+        Yönetici Şifresi
+      </label>
 
       <input
         type="password"
         id="password"
-        placeholder="Yönetici şifresi"
-        autocomplete="off"
+        placeholder="Şifrenizi girin"
+        autocomplete="current-password"
       >
 
-      <button onclick="login()">Giriş Yap</button>
+      <button onclick="login()">
+        🔓 Giriş Yap
+      </button>
 
-      <div id="loginMessage"></div>
+      <div
+        id="loginMessage"
+        class="message hidden"
+      ></div>
+
     </div>
+
   </div>
 
 
+  <!-- YÖNETİCİ PANELİ -->
   <div id="panelPage" class="container hidden">
 
     <div class="card">
 
-      <h1>📊 HANGİSİ ASAL? Yönetici Paneli</h1>
-
       <div class="topbar">
 
-        <select id="grade" onchange="loadResults()">
-          <option value="4">4. Sınıf</option>
-          <option value="5">5. Sınıf</option>
-          <option value="6">6. Sınıf</option>
-          <option value="7">7. Sınıf</option>
-          <option value="8">8. Sınıf</option>
-          <option value="Diger">Diğer</option>
-        </select>
+        <h1>
+          📊 Öğrenci Sonuçları
+        </h1>
 
-        <button onclick="loadResults()">
-          🔄 Sonuçları Yenile
-        </button>
+        <div class="logout-area">
 
-        <button class="danger" onclick="logout()">
-          🚪 Çıkış
-        </button>
+          <button
+            class="secondary"
+            onclick="loadResults()"
+          >
+            🔄 Yenile
+          </button>
+
+          <button
+            class="danger"
+            onclick="logout()"
+          >
+            🚪 Çıkış
+          </button>
+
+        </div>
 
       </div>
 
-      <div class="info">
-        <strong>Seçilen sınıf:</strong>
-        <span id="selectedGrade">4. Sınıf</span>
-        <br><br>
-        <strong>Öğrenci sayısı:</strong>
-        <span id="studentCount">0</span>
+
+      <div class="controls">
+
+        <div>
+          <label for="grade">
+            Sınıf Seçiniz
+          </label>
+
+          <select
+            id="grade"
+            onchange="loadResults()"
+          >
+            <option value="4">4. Sınıf</option>
+            <option value="5">5. Sınıf</option>
+            <option value="6">6. Sınıf</option>
+            <option value="7">7. Sınıf</option>
+            <option value="8">8. Sınıf</option>
+            <option value="Diger">Diğer</option>
+          </select>
+        </div>
+
       </div>
+
+
+      <div class="stats">
+
+        <div class="stat">
+          👨‍🎓
+          <strong id="studentCount">0</strong>
+          Öğrenci
+        </div>
+
+        <div class="stat">
+          🏆
+          <strong id="bestScore">-</strong>
+          En Yüksek Puan
+        </div>
+
+      </div>
+
+
+      <div
+        id="panelMessage"
+        class="message hidden"
+      ></div>
+
 
       <div class="table-wrap">
 
@@ -204,13 +341,18 @@
           </thead>
 
           <tbody id="resultsBody">
+
+            <tr>
+              <td colspan="7">
+                Sonuçlar yükleniyor...
+              </td>
+            </tr>
+
           </tbody>
 
         </table>
 
       </div>
-
-      <div id="message"></div>
 
     </div>
 
@@ -221,18 +363,489 @@
 
 const API = window.location.origin;
 
-function login() {
+
+/* =========================
+   YÖNETİCİ GİRİŞİ
+========================= */
+
+async function login() {
 
   const password =
-    document.getElementById("password").value.trim();
+    document
+      .getElementById("password")
+      .value
+      .trim();
 
   if (!password) {
+
     showLoginMessage(
       "Lütfen yönetici şifresini girin.",
       true
     );
+
     return;
   }
 
-  /*
-    Şimdilik panel
+
+  try {
+
+    const response = await fetch(
+      API + "/api/admin/login",
+      {
+        method: "POST",
+
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+
+        body: JSON.stringify({
+          password: password
+        })
+      }
+    );
+
+
+    const data =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        "Giriş yapılamadı."
+      );
+
+    }
+
+
+    /*
+      Sunucudan gelen güvenli
+      yönetici anahtarını saklıyoruz.
+    */
+
+    sessionStorage.setItem(
+      "adminToken",
+      data.token
+    );
+
+
+    document
+      .getElementById("loginPage")
+      .classList
+      .add("hidden");
+
+
+    document
+      .getElementById("panelPage")
+      .classList
+      .remove("hidden");
+
+
+    document
+      .getElementById("password")
+      .value = "";
+
+
+    loadResults();
+
+
+  } catch (error) {
+
+    showLoginMessage(
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================
+   ÇIKIŞ
+========================= */
+
+function logout() {
+
+  sessionStorage.removeItem(
+    "adminToken"
+  );
+
+
+  document
+    .getElementById("panelPage")
+    .classList
+    .add("hidden");
+
+
+  document
+    .getElementById("loginPage")
+    .classList
+    .remove("hidden");
+
+
+  document
+    .getElementById("password")
+    .value = "";
+
+
+  showLoginMessage(
+    "Yönetici oturumu kapatıldı.",
+    false
+  );
+
+}
+
+
+/* =========================
+   SONUÇLARI GETİR
+========================= */
+
+async function loadResults() {
+
+  const token =
+    sessionStorage.getItem(
+      "adminToken"
+    );
+
+
+  if (!token) {
+
+    logout();
+
+    return;
+  }
+
+
+  const grade =
+    document
+      .getElementById("grade")
+      .value;
+
+
+  const resultsBody =
+    document
+      .getElementById("resultsBody");
+
+
+  resultsBody.innerHTML = `
+    <tr>
+      <td colspan="7">
+        Sonuçlar yükleniyor...
+      </td>
+    </tr>
+  `;
+
+
+  try {
+
+    const response = await fetch(
+
+      API +
+      "/api/admin/results?grade=" +
+      encodeURIComponent(grade),
+
+      {
+        method: "GET",
+
+        headers: {
+          "x-admin-token": token
+        }
+      }
+
+    );
+
+
+    const data =
+      await response.json();
+
+
+    /*
+      Şifre/token geçersizse
+      giriş ekranına dön.
+    */
+
+    if (response.status === 401) {
+
+      sessionStorage.removeItem(
+        "adminToken"
+      );
+
+      document
+        .getElementById("panelPage")
+        .classList
+        .add("hidden");
+
+      document
+        .getElementById("loginPage")
+        .classList
+        .remove("hidden");
+
+      showLoginMessage(
+        "Oturumunuz sona erdi. Lütfen tekrar giriş yapın.",
+        true
+      );
+
+      return;
+    }
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error ||
+        "Sonuçlar alınamadı."
+      );
+
+    }
+
+
+    const results =
+      Array.isArray(data.results)
+        ? data.results
+        : [];
+
+
+    document
+      .getElementById("studentCount")
+      .textContent =
+        results.length;
+
+
+    if (results.length > 0) {
+
+      document
+        .getElementById("bestScore")
+        .textContent =
+        results[0].score + " / 100";
+
+    } else {
+
+      document
+        .getElementById("bestScore")
+        .textContent = "-";
+
+    }
+
+
+    if (results.length === 0) {
+
+      resultsBody.innerHTML = `
+        <tr>
+          <td colspan="7">
+            Bu sınıfta henüz sonuç bulunmuyor.
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+
+    resultsBody.innerHTML =
+      results
+        .map((result, index) => {
+
+          return `
+            <tr>
+
+              <td>
+                <strong>
+                  ${index + 1}
+                </strong>
+              </td>
+
+              <td class="avatar">
+                ${escapeHtml(
+                  result.avatar || "😀"
+                )}
+              </td>
+
+              <td>
+                <strong>
+                  ${escapeHtml(
+                    result.name || ""
+                  )}
+                </strong>
+              </td>
+
+              <td>
+                ${formatGrade(
+                  result.grade
+                )}
+              </td>
+
+              <td>
+                ${Number(
+                  result.correct || 0
+                )} / 25
+              </td>
+
+              <td>
+                <strong>
+                  ${Number(
+                    result.score || 0
+                  )} / 100
+                </strong>
+              </td>
+
+              <td>
+                ${escapeHtml(
+                  result.timeStr || "-"
+                )}
+              </td>
+
+            </tr>
+          `;
+
+        })
+        .join("");
+
+
+  } catch (error) {
+
+    resultsBody.innerHTML = `
+      <tr>
+        <td colspan="7">
+          Sonuçlar yüklenirken hata oluştu.
+        </td>
+      </tr>
+    `;
+
+
+    showPanelMessage(
+      error.message,
+      true
+    );
+
+  }
+
+}
+
+
+/* =========================
+   SINIF ADI
+========================= */
+
+function formatGrade(grade) {
+
+  if (grade === "Diger") {
+    return "Diğer";
+  }
+
+  return grade + ". Sınıf";
+
+}
+
+
+/* =========================
+   HTML GÜVENLİĞİ
+========================= */
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+/* =========================
+   GİRİŞ MESAJI
+========================= */
+
+function showLoginMessage(
+  message,
+  isError
+) {
+
+  const element =
+    document.getElementById(
+      "loginMessage"
+    );
+
+
+  element.textContent =
+    message;
+
+
+  element.classList.remove(
+    "hidden",
+    "error"
+  );
+
+
+  if (isError) {
+    element.classList.add(
+      "error"
+    );
+  }
+
+}
+
+
+/* =========================
+   PANEL MESAJI
+========================= */
+
+function showPanelMessage(
+  message,
+  isError
+) {
+
+  const element =
+    document.getElementById(
+      "panelMessage"
+    );
+
+
+  element.textContent =
+    message;
+
+
+  element.classList.remove(
+    "hidden",
+    "error"
+  );
+
+
+  if (isError) {
+    element.classList.add(
+      "error"
+    );
+  }
+
+}
+
+
+/* =========================
+   ENTER TUŞU
+========================= */
+
+document
+  .getElementById("password")
+  .addEventListener(
+    "keydown",
+    function(event) {
+
+      if (
+        event.key === "Enter"
+      ) {
+
+        login();
+
+      }
+
+    }
+  );
+
+</script>
+
+</body>
+</html>

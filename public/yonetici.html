@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yönetici Paneli | HANGİSİ ASAL?</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #f8fafc);
+      color: #1e293b;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: min(1100px, 94%);
+      margin: 30px auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 22px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.08);
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .login {
+      max-width: 420px;
+      margin: 70px auto;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      font-size: 16px;
+    }
+
+    button {
+      border: 0;
+      background: #2563eb;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .topbar > * {
+      flex: 1;
+      min-width: 160px;
+    }
+
+    .danger {
+      background: #dc2626;
+    }
+
+    .info {
+      background: #f1f5f9;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #e2e8f0;
+      text-align: center;
+    }
+
+    th {
+      background: #f8fafc;
+    }
+
+    .avatar {
+      font-size: 25px;
+    }
+
+    .error {
+      color: #dc2626;
+      text-align: center;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    .success {
+      color: #15803d;
+      text-align: center;
+      margin-top: 12px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="loginPage" class="container">
+    <div class="card login">
+      <h1>🔐 Yönetici Girişi</h1>
+
+      <p style="text-align:center;">
+        HANGİSİ ASAL? 👋
+      </p>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Yönetici şifresi"
+        autocomplete="off"
+      >
+
+      <button onclick="login()">Giriş Yap</button>
+
+      <div id="loginMessage"></div>
+    </div>
+  </div>
+
+
+  <div id="panelPage" class="container hidden">
+
+    <div class="card">
+
+      <h1>📊 HANGİSİ ASAL? Yönetici Paneli</h1>
+
+      <div class="topbar">
+
+        <select id="grade" onchange="loadResults()">
+          <option value="4">4. Sınıf</option>
+          <option value="5">5. Sınıf</option>
+          <option value="6">6. Sınıf</option>
+          <option value="7">7. Sınıf</option>
+          <option value="8">8. Sınıf</option>
+          <option value="Diger">Diğer</option>
+        </select>
+
+        <button onclick="loadResults()">
+          🔄 Sonuçları Yenile
+        </button>
+
+        <button class="danger" onclick="logout()">
+          🚪 Çıkış
+        </button>
+
+      </div>
+
+      <div class="info">
+        <strong>Seçilen sınıf:</strong>
+        <span id="selectedGrade">4. Sınıf</span>
+        <br><br>
+        <strong>Öğrenci sayısı:</strong>
+        <span id="studentCount">0</span>
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Sıra</th>
+              <th>Avatar</th>
+              <th>Ad Soyad</th>
+              <th>Sınıf</th>
+              <th>Doğru</th>
+              <th>Puan</th>
+              <th>Süre</th>
+            </tr>
+          </thead>
+
+          <tbody id="resultsBody">
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <div id="message"></div>
+
+    </div>
+
+  </div>
+
+
+<script>
+
+const API = window.location.origin;
+
+function login() {
+
+  const password =
+    document.getElementById("password").value.trim();
+
+  if (!password) {
+    showLoginMessage(
+      "Lütfen yönetici şifresini girin.",
+      true
+    );
+    return;
+  }
+
+  /*
+    Şimdilik panel

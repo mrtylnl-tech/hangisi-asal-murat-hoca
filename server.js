@@ -113,8 +113,22 @@ const server = http.createServer(async (req, res) => {
       const body = await readBody(req);
 
       const name = cleanName(body.name);
-      const grade = String(body.grade || "");
-      const avatar = String(body.avatar || "😀");
+
+let grade = String(body.grade || "").trim();
+
+if (grade.includes("4")) grade = "4";
+else if (grade.includes("5")) grade = "5";
+else if (grade.includes("6")) grade = "6";
+else if (grade.includes("7")) grade = "7";
+else if (grade.includes("8")) grade = "8";
+else if (
+  grade.toLocaleLowerCase("tr-TR").includes("diğer") ||
+  grade.toLocaleLowerCase("tr-TR").includes("diger")
+) {
+  grade = "Diger";
+}
+
+const avatar = String(body.avatar || "😀");
 
       if (!name) {
         return send(res, 400, {

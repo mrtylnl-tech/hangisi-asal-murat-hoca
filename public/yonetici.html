@@ -4,84 +4,180 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Yönetici Paneli | Murat Hoca</title>
+  <title>Yönetici Paneli | HANGİSİ ASAL?</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #eef2ff, #f8fafc);
-      color: #1e293b;
-      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f3f4f6;
+      color: #111827;
     }
 
     .container {
-      width: min(1100px, 94%);
+      width: 95%;
+      max-width: 1200px;
       margin: 30px auto;
     }
 
     .card {
       background: white;
-      border-radius: 20px;
+      border-radius: 18px;
       padding: 25px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+    }
+
+    .login-card {
+      max-width: 430px;
+      margin: 80px auto;
+      text-align: center;
     }
 
     h1 {
       margin-top: 0;
-      text-align: center;
-      color: #312e81;
+      color: #111827;
     }
 
     h2 {
-      color: #4338ca;
+      margin-top: 0;
+    }
+
+    .subtitle {
+      color: #6b7280;
+      margin-bottom: 25px;
     }
 
     input,
-    select,
-    button {
+    select {
       width: 100%;
       padding: 13px 15px;
-      border-radius: 12px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
       font-size: 16px;
-      margin-top: 8px;
+      margin-bottom: 15px;
+      background: white;
     }
 
     button {
       border: none;
-      background: #4f46e5;
-      color: white;
+      border-radius: 10px;
+      padding: 12px 18px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
+      margin: 4px;
     }
 
     button:hover {
       opacity: 0.9;
     }
 
+    .primary {
+      background: #2563eb;
+      color: white;
+    }
+
     .secondary {
-      background: #64748b;
+      background: #e5e7eb;
+      color: #111827;
+    }
+
+    .print-button {
+      background: #059669;
+      color: white;
     }
 
     .danger {
       background: #dc2626;
+      color: white;
     }
 
-    .hidden {
-      display: none !important;
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .topbar-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .filter-area {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 15px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    .stat {
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 14px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #2563eb;
+      margin-top: 5px;
+    }
+
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 750px;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #e5e7eb;
+      text-align: center;
+    }
+
+    th {
+      background: #f3f4f6;
+      font-weight: bold;
+    }
+
+    tr:hover td {
+      background: #f9fafb;
+    }
+
+    .avatar {
+      font-size: 25px;
     }
 
     .message {
-      margin-top: 15px;
-      padding: 12px;
+      padding: 12px 15px;
       border-radius: 10px;
-      background: #eef2ff;
-      color: #3730a3;
+      margin-bottom: 15px;
+      display: none;
     }
 
     .error {
@@ -89,181 +185,191 @@
       color: #991b1b;
     }
 
-    .topbar {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
+    .success {
+      background: #dcfce7;
+      color: #166534;
     }
 
-    .topbar h1 {
-      margin: 0;
+    .hidden {
+      display: none !important;
     }
 
-    .controls {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 20px;
-    }
-
-    .stats {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin: 20px 0;
-    }
-
-    .stat {
-      flex: 1;
-      min-width: 180px;
-      background: #eef2ff;
-      border-radius: 15px;
-      padding: 18px;
+    .empty {
       text-align: center;
+      padding: 30px;
+      color: #6b7280;
     }
 
-    .stat strong {
-      display: block;
-      font-size: 28px;
-      color: #4338ca;
-      margin-top: 5px;
-    }
+    @media (max-width: 700px) {
 
-    .table-wrap {
-      overflow-x: auto;
-      border-radius: 12px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 700px;
-    }
-
-    th,
-    td {
-      padding: 12px 10px;
-      border-bottom: 1px solid #e2e8f0;
-      text-align: center;
-    }
-
-    th {
-      background: #eef2ff;
-      color: #3730a3;
-    }
-
-    tr:hover td {
-      background: #f8fafc;
-    }
-
-    .avatar {
-      font-size: 26px;
-    }
-
-    .login-box {
-      max-width: 450px;
-      margin: 70px auto;
-    }
-
-    .subtitle {
-      text-align: center;
-      color: #64748b;
-      margin-bottom: 25px;
-    }
-
-    .logout-area {
-      display: flex;
-      gap: 10px;
-    }
-
-    .logout-area button {
-      width: auto;
-      padding: 10px 18px;
-    }
-
-    @media (max-width: 650px) {
-      .controls {
-        grid-template-columns: 1fr;
+      .container {
+        width: 94%;
+        margin: 15px auto;
       }
 
       .card {
         padding: 18px;
       }
 
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .filter-area {
+        grid-template-columns: 1fr;
+      }
+
       .topbar {
         align-items: stretch;
       }
 
-      .logout-area {
+      .topbar-buttons {
         width: 100%;
       }
 
-      .logout-area button {
+      .topbar-buttons button {
         flex: 1;
       }
+
     }
+
+    /* =========================
+       YAZDIRMA
+    ========================= */
+
+    @media print {
+
+      body {
+        background: white;
+      }
+
+      .container {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+      }
+
+      .card {
+        box-shadow: none;
+        border-radius: 0;
+        padding: 0;
+      }
+
+      .topbar-buttons,
+      .filter-area,
+      .stats,
+      .message {
+        display: none !important;
+      }
+
+      table {
+        min-width: 0;
+        width: 100%;
+        font-size: 11px;
+      }
+
+      th,
+      td {
+        padding: 7px 5px;
+        border: 1px solid #999;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 5px;
+      }
+
+      .subtitle {
+        text-align: center;
+      }
+
+    }
+
   </style>
 </head>
 
 <body>
 
-  <!-- GİRİŞ SAYFASI -->
-  <div id="loginPage" class="container">
+  <!-- =========================
+       GİRİŞ
+  ========================= -->
 
-    <div class="card login-box">
+  <div
+    id="loginPage"
+    class="container"
+  >
+
+    <div class="card login-card">
 
       <h1>🔐 Yönetici Paneli</h1>
 
       <div class="subtitle">
-        Murat Hoca İle Matematik
+        HANGİSİ ASAL? | Murat Hoca İle Matematik
       </div>
-
-      <label for="password">
-        Yönetici Şifresi
-      </label>
-
-      <input
-        type="password"
-        id="password"
-        placeholder="Şifrenizi girin"
-        autocomplete="current-password"
-      >
-
-      <button onclick="login()">
-        🔓 Giriş Yap
-      </button>
 
       <div
         id="loginMessage"
-        class="message hidden"
+        class="message error"
       ></div>
+
+      <input
+        id="password"
+        type="password"
+        placeholder="Yönetici şifresi"
+        autocomplete="current-password"
+      >
+
+      <button
+        class="primary"
+        onclick="login()"
+      >
+        🔓 Giriş Yap
+      </button>
 
     </div>
 
   </div>
 
 
-  <!-- YÖNETİCİ PANELİ -->
-  <div id="panelPage" class="container hidden">
+  <!-- =========================
+       YÖNETİCİ PANELİ
+  ========================= -->
+
+  <div
+    id="panelPage"
+    class="container hidden"
+  >
 
     <div class="card">
 
       <div class="topbar">
 
-        <h1>
-          📊 Öğrenci Sonuçları
-        </h1>
+        <div>
 
-        <div class="logout-area">
+          <h1>
+            🏆 HANGİSİ ASAL?
+          </h1>
+
+          <div class="subtitle">
+            Murat Hoca İle Matematik — Yönetici Paneli
+          </div>
+
+        </div>
+
+        <div class="topbar-buttons">
 
           <button
             class="secondary"
             onclick="loadResults()"
           >
             🔄 Yenile
+          </button>
+
+          <button
+            class="print-button"
+            onclick="printResults()"
+          >
+            🖨️ Yazdır
           </button>
 
           <button
@@ -278,74 +384,179 @@
       </div>
 
 
-      <div class="controls">
+      <div
+        id="panelMessage"
+        class="message success"
+      ></div>
+
+
+      <!-- =========================
+           SINIF FİLTRESİ
+      ========================= -->
+
+      <div class="filter-area">
 
         <div>
+
           <label for="grade">
-            Sınıf Seçiniz
+            <strong>Sınıf Seç:</strong>
           </label>
 
           <select
             id="grade"
             onchange="loadResults()"
           >
-            <option value="4">4. Sınıf</option>
-            <option value="5">5. Sınıf</option>
-            <option value="6">6. Sınıf</option>
-            <option value="7">7. Sınıf</option>
-            <option value="8">8. Sınıf</option>
-            <option value="Diger">Diğer</option>
+
+            <option value="">
+              Tüm Sınıflar
+            </option>
+
+            <option value="4">
+              4. Sınıf
+            </option>
+
+            <option value="5">
+              5. Sınıf
+            </option>
+
+            <option value="6">
+              6. Sınıf
+            </option>
+
+            <option value="7">
+              7. Sınıf
+            </option>
+
+            <option value="8">
+              8. Sınıf
+            </option>
+
+            <option value="Diger">
+              Diğer
+            </option>
+
           </select>
+
         </div>
 
       </div>
 
+
+      <!-- =========================
+           İSTATİSTİKLER
+      ========================= -->
 
       <div class="stats">
 
         <div class="stat">
-          👨‍🎓
-          <strong id="studentCount">0</strong>
-          Öğrenci
+
+          <div>
+            👥 Katılımcı
+          </div>
+
+          <div
+            id="count"
+            class="stat-number"
+          >
+            0
+          </div>
+
         </div>
 
+
         <div class="stat">
-          🏆
-          <strong id="bestScore">-</strong>
-          En Yüksek Puan
+
+          <div>
+            🏆 En Yüksek Puan
+          </div>
+
+          <div
+            id="bestScore"
+            class="stat-number"
+          >
+            0
+          </div>
+
+        </div>
+
+
+        <div class="stat">
+
+          <div>
+            ⏱️ En İyi Süre
+          </div>
+
+          <div
+            id="bestTime"
+            class="stat-number"
+          >
+            -
+          </div>
+
         </div>
 
       </div>
 
 
-      <div
-        id="panelMessage"
-        class="message hidden"
-      ></div>
+      <!-- =========================
+           SONUÇLAR
+      ========================= -->
 
+      <h2>
+        📋 Öğrenci Sonuçları
+      </h2>
 
-      <div class="table-wrap">
+      <div class="table-wrapper">
 
         <table>
 
           <thead>
+
             <tr>
-              <th>Sıra</th>
-              <th>Avatar</th>
-              <th>Ad Soyad</th>
-              <th>Sınıf</th>
-              <th>Doğru</th>
-              <th>Puan</th>
-              <th>Süre</th>
+
+              <th>
+                Sıra
+              </th>
+
+              <th>
+                Avatar
+              </th>
+
+              <th>
+                Ad Soyad
+              </th>
+
+              <th>
+                Sınıf
+              </th>
+
+              <th>
+                Doğru
+              </th>
+
+              <th>
+                Puan
+              </th>
+
+              <th>
+                Süre
+              </th>
+
             </tr>
+
           </thead>
 
           <tbody id="resultsBody">
 
             <tr>
-              <td colspan="7">
+
+              <td
+                colspan="7"
+                class="empty"
+              >
                 Sonuçlar yükleniyor...
               </td>
+
             </tr>
 
           </tbody>
@@ -359,493 +570,834 @@
   </div>
 
 
-<script>
+  <script>
 
-const API = window.location.origin;
+    /* =========================
+       DEĞİŞKENLER
+    ========================= */
 
-
-/* =========================
-   YÖNETİCİ GİRİŞİ
-========================= */
-
-async function login() {
-
-  const password =
-    document
-      .getElementById("password")
-      .value
-      .trim();
-
-  if (!password) {
-
-    showLoginMessage(
-      "Lütfen yönetici şifresini girin.",
-      true
-    );
-
-    return;
-  }
-
-
-  try {
-
-    const response = await fetch(
-      API + "/api/admin/login",
-      {
-        method: "POST",
-
-        headers: {
-          "Content-Type":
-            "application/json"
-        },
-
-        body: JSON.stringify({
-          password: password
-        })
-      }
-    );
-
-
-    const data =
-      await response.json();
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error ||
-        "Giriş yapılamadı."
-      );
-
-    }
-
-
-    /*
-      Sunucudan gelen güvenli
-      yönetici anahtarını saklıyoruz.
-    */
-
-    sessionStorage.setItem(
-      "adminToken",
-      data.token
-    );
-
-
-    document
-      .getElementById("loginPage")
-      .classList
-      .add("hidden");
-
-
-    document
-      .getElementById("panelPage")
-      .classList
-      .remove("hidden");
-
-
-    document
-      .getElementById("password")
-      .value = "";
-
-
-    loadResults();
-
-
-  } catch (error) {
-
-    showLoginMessage(
-      error.message,
-      true
-    );
-
-  }
-
-}
-
-
-/* =========================
-   ÇIKIŞ
-========================= */
-
-function logout() {
-
-  sessionStorage.removeItem(
-    "adminToken"
-  );
-
-
-  document
-    .getElementById("panelPage")
-    .classList
-    .add("hidden");
-
-
-  document
-    .getElementById("loginPage")
-    .classList
-    .remove("hidden");
-
-
-  document
-    .getElementById("password")
-    .value = "";
-
-
-  showLoginMessage(
-    "Yönetici oturumu kapatıldı.",
-    false
-  );
-
-}
-
-
-/* =========================
-   SONUÇLARI GETİR
-========================= */
-
-async function loadResults() {
-
-  const token =
-    sessionStorage.getItem(
+    let adminToken = sessionStorage.getItem(
       "adminToken"
     );
 
 
-  if (!token) {
+    /* =========================
+       SAYFA BAŞLANGICI
+    ========================= */
 
-    logout();
+    if (adminToken) {
 
-    return;
-  }
+      showPanel();
 
+    } else {
 
-  const grade =
-    document
-      .getElementById("grade")
-      .value;
+      showLogin();
 
-
-  const resultsBody =
-    document
-      .getElementById("resultsBody");
+    }
 
 
-  resultsBody.innerHTML = `
-    <tr>
-      <td colspan="7">
-        Sonuçlar yükleniyor...
-      </td>
-    </tr>
-  `;
+    /* =========================
+       GİRİŞ
+    ========================= */
 
+    async function login() {
 
-  try {
+      const password =
+        document
+          .getElementById("password")
+          .value
+          .trim();
 
-    const response = await fetch(
+      if (!password) {
 
-      API +
-      "/api/admin/results?grade=" +
-      encodeURIComponent(grade),
+        showLoginMessage(
+          "Lütfen yönetici şifresini girin."
+        );
 
-      {
-        method: "GET",
+        return;
 
-        headers: {
-          "x-admin-token": token
-        }
       }
 
-    );
+      try {
+
+        const response =
+          await fetch(
+            "/api/admin/login",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+                password: password
+              })
+            }
+          );
 
 
-    const data =
-      await response.json();
+        const data =
+          await response.json();
 
 
-    /*
-      Şifre/token geçersizse
-      giriş ekranına dön.
-    */
+        if (!response.ok) {
 
-    if (response.status === 401) {
+          showLoginMessage(
+            data.error ||
+            "Giriş başarısız."
+          );
 
-      sessionStorage.removeItem(
-        "adminToken"
-      );
+          return;
+
+        }
+
+
+        adminToken =
+          data.token;
+
+        sessionStorage.setItem(
+          "adminToken",
+          adminToken
+        );
+
+
+        showPanel();
+
+
+      } catch (error) {
+
+        showLoginMessage(
+          "Sunucuya bağlanırken bir hata oluştu."
+        );
+
+      }
+
+    }
+
+
+    /* =========================
+       PANELİ GÖSTER
+    ========================= */
+
+    function showPanel() {
+
+      document
+        .getElementById("loginPage")
+        .classList
+        .add("hidden");
 
       document
         .getElementById("panelPage")
         .classList
-        .add("hidden");
+        .remove("hidden");
+
+      loadResults();
+
+    }
+
+
+    /* =========================
+       GİRİŞ SAYFASINI GÖSTER
+    ========================= */
+
+    function showLogin() {
 
       document
         .getElementById("loginPage")
         .classList
         .remove("hidden");
 
-      showLoginMessage(
-        "Oturumunuz sona erdi. Lütfen tekrar giriş yapın.",
-        true
+      document
+        .getElementById("panelPage")
+        .classList
+        .add("hidden");
+
+    }
+
+
+    /* =========================
+       ÇIKIŞ
+    ========================= */
+
+    function logout() {
+
+      sessionStorage.removeItem(
+        "adminToken"
       );
 
-      return;
-    }
+      adminToken = null;
 
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error ||
-        "Sonuçlar alınamadı."
-      );
-
-    }
-
-
-    const results =
-      Array.isArray(data.results)
-        ? data.results
-        : [];
-
-
-    document
-      .getElementById("studentCount")
-      .textContent =
-        results.length;
-
-
-    if (results.length > 0) {
+      showLogin();
 
       document
-        .getElementById("bestScore")
-        .textContent =
-        results[0].score + " / 100";
-
-    } else {
-
-      document
-        .getElementById("bestScore")
-        .textContent = "-";
+        .getElementById("password")
+        .value = "";
 
     }
 
 
-    if (results.length === 0) {
+    /* =========================
+       SONUÇLARI GETİR
+    ========================= */
 
-      resultsBody.innerHTML = `
-        <tr>
-          <td colspan="7">
-            Bu sınıfta henüz sonuç bulunmuyor.
-          </td>
-        </tr>
-      `;
+    async function loadResults() {
 
-      return;
-    }
+      const grade =
+        document
+          .getElementById("grade")
+          .value;
 
 
-    resultsBody.innerHTML =
-      results
-        .map((result, index) => {
-
-          return `
-            <tr>
-
-              <td>
-                <strong>
-                  ${index + 1}
-                </strong>
-              </td>
-
-              <td class="avatar">
-                ${escapeHtml(
-                  result.avatar || "😀"
-                )}
-              </td>
-
-              <td>
-                <strong>
-                  ${escapeHtml(
-                    result.name || ""
-                  )}
-                </strong>
-              </td>
-
-              <td>
-                ${formatGrade(
-                  result.grade
-                )}
-              </td>
-
-              <td>
-                ${Number(
-                  result.correct || 0
-                )} / 25
-              </td>
-
-              <td>
-                <strong>
-                  ${Number(
-                    result.score || 0
-                  )} / 100
-                </strong>
-              </td>
-
-              <td>
-                ${escapeHtml(
-                  result.timeStr || "-"
-                )}
-              </td>
-
-            </tr>
-          `;
-
-        })
-        .join("");
+      const url =
+        grade
+          ? `/api/admin/results?grade=${encodeURIComponent(grade)}`
+          : "/api/admin/results";
 
 
-  } catch (error) {
+      try {
 
-    resultsBody.innerHTML = `
-      <tr>
-        <td colspan="7">
-          Sonuçlar yüklenirken hata oluştu.
-        </td>
-      </tr>
-    `;
-
-
-    showPanelMessage(
-      error.message,
-      true
-    );
-
-  }
-
-}
+        const response =
+          await fetch(
+            url,
+            {
+              headers: {
+                "x-admin-token":
+                  adminToken
+              }
+            }
+          );
 
 
-/* =========================
-   SINIF ADI
-========================= */
+        if (response.status === 401) {
 
-function formatGrade(grade) {
+          logout();
 
-  if (grade === "Diger") {
-    return "Diğer";
-  }
+          showLoginMessage(
+            "Oturumunuz sona erdi. Lütfen tekrar giriş yapın."
+          );
 
-  return grade + ". Sınıf";
+          return;
 
-}
+        }
 
 
-/* =========================
-   HTML GÜVENLİĞİ
-========================= */
-
-function escapeHtml(value) {
-
-  return String(value ?? "")
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-
-}
+        const data =
+          await response.json();
 
 
-/* =========================
-   GİRİŞ MESAJI
-========================= */
+        if (!response.ok) {
 
-function showLoginMessage(
-  message,
-  isError
-) {
+          showPanelMessage(
+            data.error ||
+            "Sonuçlar alınamadı.",
+            true
+          );
 
-  const element =
-    document.getElementById(
-      "loginMessage"
-    );
+          return;
+
+        }
 
 
-  element.textContent =
-    message;
+        renderResults(
+          data.results || []
+        );
 
 
-  element.classList.remove(
-    "hidden",
-    "error"
-  );
+      } catch (error) {
 
-
-  if (isError) {
-    element.classList.add(
-      "error"
-    );
-  }
-
-}
-
-
-/* =========================
-   PANEL MESAJI
-========================= */
-
-function showPanelMessage(
-  message,
-  isError
-) {
-
-  const element =
-    document.getElementById(
-      "panelMessage"
-    );
-
-
-  element.textContent =
-    message;
-
-
-  element.classList.remove(
-    "hidden",
-    "error"
-  );
-
-
-  if (isError) {
-    element.classList.add(
-      "error"
-    );
-  }
-
-}
-
-
-/* =========================
-   ENTER TUŞU
-========================= */
-
-document
-  .getElementById("password")
-  .addEventListener(
-    "keydown",
-    function(event) {
-
-      if (
-        event.key === "Enter"
-      ) {
-
-        login();
+        showPanelMessage(
+          "Sonuçlar yüklenirken hata oluştu.",
+          true
+        );
 
       }
 
     }
-  );
 
-</script>
+
+    /* =========================
+       SONUÇLARI GÖSTER
+    ========================= */
+
+    function renderResults(results) {
+
+      const body =
+        document
+          .getElementById("resultsBody");
+
+
+      document
+        .getElementById("count")
+        .textContent =
+          results.length;
+
+
+      if (!results.length) {
+
+        document
+          .getElementById("bestScore")
+          .textContent = "0";
+
+        document
+          .getElementById("bestTime")
+          .textContent = "-";
+
+
+        body.innerHTML = `
+
+          <tr>
+
+            <td
+              colspan="7"
+              class="empty"
+            >
+              Henüz sonuç bulunmuyor.
+            </td>
+
+          </tr>
+
+        `;
+
+        return;
+
+      }
+
+
+      const bestScore =
+        Math.max(
+          ...results.map(
+            item =>
+              Number(item.score || 0)
+          )
+        );
+
+
+      const validTimes =
+        results
+          .map(
+            item =>
+              Number(item.time || 0)
+          )
+          .filter(
+            time =>
+              time > 0
+          );
+
+
+      const bestTime =
+        validTimes.length
+          ? Math.min(...validTimes)
+          : 0;
+
+
+      document
+        .getElementById("bestScore")
+        .textContent =
+          bestScore;
+
+
+      document
+        .getElementById("bestTime")
+        .textContent =
+          bestTime
+            ? formatTime(bestTime)
+            : "-";
+
+
+      body.innerHTML =
+        results
+          .map(
+            (item, index) => `
+
+              <tr>
+
+                <td>
+                  ${index + 1}
+                </td>
+
+                <td class="avatar">
+                  ${escapeHtml(
+                    item.avatar || "🙂"
+                  )}
+                </td>
+
+                <td>
+                  <strong>
+                    ${escapeHtml(
+                      item.name || "-"
+                    )}
+                  </strong>
+                </td>
+
+                <td>
+                  ${escapeHtml(
+                    formatGrade(
+                      item.grade
+                    )
+                  )}
+                </td>
+
+                <td>
+                  ${Number(
+                    item.correct || 0
+                  )} / 25
+                </td>
+
+                <td>
+                  <strong>
+                    ${Number(
+                      item.score || 0
+                    )}
+                  </strong>
+                </td>
+
+                <td>
+                  ${formatTime(
+                    Number(
+                      item.time || 0
+                    )
+                  )}
+                </td>
+
+              </tr>
+
+            `
+          )
+          .join("");
+
+    }
+
+
+    /* =========================
+       SINIF ADI
+    ========================= */
+
+    function formatGrade(grade) {
+
+      if (!grade) {
+        return "Tüm Sınıflar";
+      }
+
+      if (
+        String(grade)
+          .toLowerCase() ===
+        "diger"
+      ) {
+
+        return "Diğer";
+
+      }
+
+
+      return `${grade}. Sınıf`;
+
+    }
+
+
+    /* =========================
+       SÜRE
+    ========================= */
+
+    function formatTime(seconds) {
+
+      seconds =
+        Number(seconds || 0);
+
+
+      if (!seconds) {
+        return "-";
+      }
+
+
+      const minutes =
+        Math.floor(
+          seconds / 60
+        );
+
+
+      const remainingSeconds =
+        seconds % 60;
+
+
+      return `${minutes}:${String(
+        remainingSeconds
+      ).padStart(2, "0")}`;
+
+    }
+
+
+    /* =========================
+       HTML GÜVENLİĞİ
+    ========================= */
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(
+          /&/g,
+          "&amp;"
+        )
+        .replace(
+          /</g,
+          "&lt;"
+        )
+        .replace(
+          />/g,
+          "&gt;"
+        )
+        .replace(
+          /"/g,
+          "&quot;"
+        )
+        .replace(
+          /'/g,
+          "&#039;"
+        );
+
+    }
+
+
+    /* =========================
+       YAZDIR
+    ========================= */
+
+    function printResults() {
+
+      const grade =
+        document
+          .getElementById("grade")
+          .value;
+
+
+      const gradeText =
+        formatGrade(grade);
+
+
+      const rows =
+        document
+          .getElementById("resultsBody")
+          .innerHTML;
+
+
+      const count =
+        document
+          .getElementById("count")
+          .textContent;
+
+
+      const bestScore =
+        document
+          .getElementById("bestScore")
+          .textContent;
+
+
+      const bestTime =
+        document
+          .getElementById("bestTime")
+          .textContent;
+
+
+      const printWindow =
+        window.open(
+          "",
+          "_blank"
+        );
+
+
+      if (!printWindow) {
+
+        alert(
+          "Yazdırma penceresi açılamadı. Tarayıcınızın açılır pencere iznini kontrol edin."
+        );
+
+        return;
+
+      }
+
+
+      const date =
+        new Date()
+          .toLocaleDateString(
+            "tr-TR"
+          );
+
+
+      printWindow.document.write(`
+
+        <!DOCTYPE html>
+
+        <html lang="tr">
+
+        <head>
+
+          <meta charset="UTF-8">
+
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          >
+
+          <title>
+            HANGİSİ ASAL? - Sonuçlar
+          </title>
+
+          <style>
+
+            * {
+              box-sizing: border-box;
+            }
+
+            body {
+              font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+              color: #111827;
+
+              padding: 25px;
+            }
+
+            h1 {
+              text-align: center;
+              margin: 0;
+              font-size: 26px;
+            }
+
+            h2 {
+              text-align: center;
+              font-weight: normal;
+              margin: 6px 0;
+            }
+
+            .date {
+              text-align: right;
+              color: #555;
+              margin-top: 20px;
+            }
+
+            .summary {
+              display: flex;
+              justify-content: center;
+              gap: 30px;
+              margin: 20px 0;
+              font-weight: bold;
+            }
+
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 20px;
+            }
+
+            th,
+            td {
+              border: 1px solid #999;
+              padding: 8px;
+              text-align: center;
+            }
+
+            th {
+              background: #eeeeee;
+            }
+
+            .avatar {
+              font-size: 20px;
+            }
+
+            @media print {
+
+              body {
+                padding: 10px;
+              }
+
+              table {
+                font-size: 11px;
+              }
+
+            }
+
+          </style>
+
+        </head>
+
+
+        <body>
+
+          <h1>
+            HANGİSİ ASAL?
+          </h1>
+
+          <h2>
+            Murat Hoca İle Matematik
+          </h2>
+
+          <h2>
+            ${escapeHtml(gradeText)}
+            Sonuçları
+          </h2>
+
+
+          <div class="date">
+            Tarih: ${date}
+          </div>
+
+
+          <div class="summary">
+
+            <span>
+              Katılımcı: ${count}
+            </span>
+
+            <span>
+              En Yüksek Puan: ${bestScore}
+            </span>
+
+            <span>
+              En İyi Süre: ${bestTime}
+            </span>
+
+          </div>
+
+
+          <table>
+
+            <thead>
+
+              <tr>
+
+                <th>Sıra</th>
+                <th>Avatar</th>
+                <th>Ad Soyad</th>
+                <th>Sınıf</th>
+                <th>Doğru</th>
+                <th>Puan</th>
+                <th>Süre</th>
+
+              </tr>
+
+            </thead>
+
+
+            <tbody>
+
+              ${rows}
+
+            </tbody>
+
+          </table>
+
+
+        </body>
+
+        </html>
+
+      `);
+
+
+      printWindow.document.close();
+
+
+      printWindow.focus();
+
+
+      setTimeout(
+        function() {
+
+          printWindow.print();
+
+        },
+        500
+      );
+
+    }
+
+
+    /* =========================
+       MESAJLAR
+    ========================= */
+
+    function showLoginMessage(message) {
+
+      const element =
+        document
+          .getElementById("loginMessage");
+
+
+      element.textContent =
+        message;
+
+
+      element.style.display =
+        "block";
+
+    }
+
+
+    function showPanelMessage(
+      message,
+      isError = false
+    ) {
+
+      const element =
+        document
+          .getElementById("panelMessage");
+
+
+      element.textContent =
+        message;
+
+
+      element.className =
+        "message " +
+        (
+          isError
+            ? "error"
+            : "success"
+        );
+
+
+      element.style.display =
+        "block";
+
+
+      setTimeout(
+        function() {
+
+          element.style.display =
+            "none";
+
+        },
+        3000
+      );
+
+    }
+
+
+    /* =========================
+       ENTER TUŞU
+    ========================= */
+
+    document
+      .getElementById("password")
+      .addEventListener(
+        "keydown",
+        function(event) {
+
+          if (
+            event.key === "Enter"
+          ) {
+
+            login();
+
+          }
+
+        }
+      );
+
+  </script>
 
 </body>
 </html>

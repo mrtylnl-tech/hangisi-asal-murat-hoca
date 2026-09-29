@@ -46,8 +46,8 @@ function readBody(req) {
     req.on("end", () => {
       try {
         resolve(body ? JSON.parse(body) : {});
-      } catch {
-        reject(new Error("Geçersiz JSON"));
+      } catch (e) {
+        reject(e);
       }
     });
 
@@ -57,11 +57,6 @@ function readBody(req) {
 
 function cleanName(name) {
   return String(name || "").trim().replace(/\s+/g, " ");
-}
-
-function gradeName(grade) {
-  if (grade === "Diger") return "Diğer";
-  return `${grade}. Sınıf`;
 }
 
 function getLeaderboard(grade) {
@@ -74,23 +69,41 @@ function getLeaderboard(grade) {
   }
 
   list.sort((a, b) => {
-    if (b.score !== a.score) return b.score - a.score;
+    if (b.score !== a.score) {
+      return b.score - a.score;
+    }
+
     return a.timeMs - b.timeMs;
   });
 
   return list.slice(0, 100);
 }
 
-const server = http.createServer(async (req, res) => {
-  const url = new URL(req.url, `http://${req.headers.host || "localhost"}`);
+function formatTime(ms) {
+  const totalSeconds = Math.floor(ms / 1000);
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
 
-  // CORS
+  return (
+    String(minutes).padStart(2, "0") +
+    ":" +
+    String(seconds).padStart(2, "0")
+  );
+}
+
+const server = http.createServer(async (req, res) => {
+  const url = new URL(
+    req.url,
+    `http://${req.headers.host || "localhost"}`
+  );
+
   if (req.method === "OPTIONS") {
     res.writeHead(204, {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "GET,POST,OPTIONS"
     });
+
     return res.end();
   }
 
@@ -116,7 +129,6 @@ const server = http.createServer(async (req, res) => {
       }
 
       const gameId = crypto.randomUUID();
-
       const questions = shuffle(primes);
 
       games.set(gameId, {
@@ -186,7 +198,9 @@ const server = http.createServer(async (req, res) => {
       let score = 0;
 
       for (const item of game.answers.values()) {
-        if (item.correct) score += 4;
+        if (item.correct) {
+          score += 4;
+        }
       }
 
       return send(res, 200, {
@@ -194,7 +208,7 @@ const server = http.createServer(async (req, res) => {
         score
       });
 
-    } catch {
+    } catch (error) {
       return send(res, 400, {
         error: "Cevap işlenemedi."
       });
@@ -225,19 +239,98 @@ const server = http.createServer(async (req, res) => {
       let correct = 0;
 
       for (const item of game.answers.values()) {
-        if (item.correct) correct++;
+        if (item.correct) {
+          correct++;
+        }
       }
 
       const score = correct * 4;
       const timeMs = Math.max(0, Date.now() - game.startAt);
 
       const key =
-        game.grade + "|" +
+        game.grade +
+        "|" +
         game.name.toLocaleLowerCase("tr-TR");
-
-      const old = results.get(key);
 
       const result = {
         name: game.name,
         grade: game.grade,
-       
+        avatar: game.avatar,
+        correct,
+        score,
+        timeMs,
+        timeStr: formatTime(timeMs)
+      };
+
+      const old = results.get(key);
+      let saved = false;
+
+      if (
+        !old ||
+        score > old.score ||
+        (score === old.score && timeMs < old.timeMs)
+      ) {
+        results.set(key, result);
+        saved = true;
+      }
+
+      return send(res, 200, {
+        saved,
+        result: saved ? result : old,
+        leaderboard: getLeaderboard(game.grade)
+      });
+
+    } catch (error) {
+      return send(res, 400, {
+        error: "Oyun tamamlanamadı."
+      });
+    }
+  }
+
+  // SIRALAMA
+  if (req.method === "GET" && url.pathname === "/api/leaderboard") {
+    const grade = String(url.searchParams.get("grade") || "");
+
+    if (!grades.includes(grade)) {
+      return send(res, 400, {
+        error: "Geçersiz sınıf."
+      });
+    }
+
+    return send(res, 200, {
+      results: getLeaderboard(grade)
+    });
+  }
+
+  // ANA SAYFA
+  if (
+    req.method === "GET" &&
+    (url.pathname === "/" || url.pathname === "/index.html")
+  ) {
+    const file = path.join(__dirname, "public", "index.html");
+
+    if (!fs.existsSync(file)) {
+      return send(res, 404, {
+        error: "public/index.html bulunamadı."
+      });
+    }
+
+    res.writeHead(200, {
+      "Content-Type": "text/html; charset=utf-8"
+    });
+
+    return fs.createReadStream(file).pipe(res);
+  }
+
+  res.writeHead(404, {
+    "Content-Type": "text/plain; charset=utf-8"
+  });
+
+  res.end("Sayfa bulunamadı.");
+});
+
+server.listen(PORT, () => {
+  console.log(
+    `HANGİSİ ASAL sunucusu ${PORT} portunda çalışıyor.`
+  );
+});
